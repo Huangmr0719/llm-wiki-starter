@@ -34,7 +34,7 @@
 
 ```bash
 # 1. 克隆模板仓库
-git clone https://github.com/ZyKINvice/llm-wiki-starter.git ~/brain
+git clone https://github.com/Huangmr0719/llm-wiki-starter.git ~/brain
 cd ~/brain
 
 # 2. 在 Obsidian 中打开此文件夹作为 vault
