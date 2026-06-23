@@ -1,112 +1,46 @@
 ---
 skill: lint
-trigger: "lint" 或 "检查 wiki" 或每周定时执行
-description: 系统性健康检查：矛盾、过时、孤儿、缺失交叉引用、知识空白
+trigger: "lint" or "check wiki" or weekly scheduled task
+description: Systematic health check — contradictions, stale, orphans, missing links, dedup, pruning, knowledge gaps
 ---
 
-# Lint：Wiki 健康检查
+# Lint: Wiki Health Check
 
-## 触发条件
-- 我说 "lint" 或 "检查 wiki"
-- 每周日晚上定时自动执行
+## Trigger
+- User says "lint" or "check wiki"
+- Weekly scheduled task
 
-## 执行流程
+## Workflow
 
-### 1. 矛盾检测
-- 通读 `index.md` 获取所有页面列表
-- 交叉比对: 是否有两个页面对同一事实/结论给出不同说法？
-- 如发现:
-  - 在双方页面添加 `> ⚠️ Contradiction:` callout，互相链接
-  - 在报告中记录矛盾对
-- 特别关注: 不同来源对同一研究的解读是否一致
+### 1. Contradiction Detection
+- Cross-compare all pages for incompatible claims about the same fact
+- If found: add `> ⚠️ Contradiction:` callout on both pages with cross-links
 
-### 2. 过时检测
-- 检查所有非 stub 页面
-- 若 `updated` 超过 30 天 且 涉及时效性内容（如"最新"、"当前 SOTA"、"今年"等表述）:
-  - 在页面顶部添加 `> ⚠️ 此页面可能包含过时信息（上次更新: YYYY-MM-DD）`
-  - 将 frontmatter `status` 更新为 `stale`
-- 在报告中列出所有过时页面及判定原因
+### 2. Stale Detection
+- Pages with `updated` > 30 days AND time-sensitive content → mark `status: stale`
 
-### 3. 孤儿页面检测
-- 搜索整个 wiki: 哪些页面**没有被任何其他页面链接**（零入站链接）？
-- 对于每个孤儿页面:
-  - 判断: 是应该被链接但遗漏了，还是本质独立？
-  - 若是遗漏: 找到应该链接到它的页面，添加 `[[链接]]`
-  - 若是独立: 说明其独立存在的必要性
-- （Obsidian 图谱视图可直观辅助此检查）
+### 3. Orphan Page Detection
+- Find pages with zero inbound links → add links or justify standalone existence
 
-### 4. 红色链接检测（缺失页面）
-- 扫描所有 wiki 页面正文中的 `[[指向不存在页面的链接]]`
-- 按被引用次数排序，列出 Top 10
-- 判断: 哪些最值得创建？
-  - 被 ≥ 3 个页面引用的概念 → 高优先级创建 stub
-  - 被 1–2 个页面引用 → 根据概念重要性决定
+### 4. Red Link Detection
+- Scan `[[links to non-existent pages]]`, list Top 10 by citation count
 
-### 5. 缺失交叉引用
-- 扫描正文: 找到提到了实体/概念但**未使用 `[[链接]]`** 的地方
-- 自动为这些文本添加 `[[链接]]`（若目标页面存在或值得创建）
-- 记录修改清单
+### 5. Missing Cross-References
+- Auto-add `[[links]]` for entities mentioned in text but not linked
 
-### 6. 概念去重检查
-- 通读所有 `wiki/entities/` 页面标题
-- 找出满足以下条件的概念对/组:
-  - A 是 B 的定义框架（如 FACS → AU）
-  - A 是 B 的具体应用实例（如 Identity-independent AU → Disentangled Representation）
-  - A 和 B 描述同一事物但用不同名称
-- 建议合并方案，汇报给我确认
-- 确认后执行合并: 将内容合并到保留页面 → 删除冗余页面 → 全局更新 `[[旧链接]]` → 更新 index.md 和 log.md
+### 6. Concept Dedup Check
+- Find concept pairs where A is the definition/application/synonym of B
+- Propose merge plan → execute → clean up old links
 
-### 7. 知识空白
-基于当前 wiki 的覆盖范围:
-- 建议 3–5 个值得进一步研究的问题
-- 建议 2–3 份值得寻找的原始资料/论文
-- 标注: 哪些话题已充分覆盖，哪些话题明显薄弱
+### 7. Concept Pruning
+- Scan for: single-source persons, fine-grained datasets/tools, expired stubs (< 3 connections)
+- Propose pruning actions → execute
 
-### 7. 写入报告
-完整报告保存到 `wiki/lint-reports/YYYY-MM-DD.md`:
+### 8. Knowledge Gaps
+- Suggest 3–5 new research questions + 2–3 new sources to seek
 
-```markdown
----
-type: lint-report
-tags: [lint]
-created: YYYY-MM-DD
-updated: YYYY-MM-DD
----
-# Lint Report — YYYY-MM-DD
+### 9. Write Report
+Full report to `wiki/lint-reports/YYYY-MM-DD.md` with sections for each check category
 
-## 📊 概况
-- 检查页面数: N
-- 发现问题数: M
-
-## 🔴 矛盾（Contradictions）
-- [[page-a]] ↔ [[page-b]]: 具体矛盾描述及建议解决方案
-
-## 🟡 过时页面（Stale Pages）
-- [[page-x]]: 上次更新 YYYY-MM-DD，过时原因
-
-## 🟠 孤儿页面（Orphan Pages）
-- [[page-y]]: 零入站链接，建议从 [[page-z]] 链接
-
-## 🔵 缺失页面（Top Missing Pages）
-1. [[missing-1]]: 被引用 N 次，建议优先创建
-2. ...
-
-## ⚪ 缺失交叉引用
-- 在 [[page-a]] 中为 "概念名" 添加了 [[链接]]
-- ...
-
-## 💡 建议研究方向
-1. ...
-2. ...
-
-## 📚 建议寻找的资料
-1. ...
-2. ...
-```
-
-### 8. 汇报摘要
-口头汇报:
-- 最需关注的 1–2 个矛盾
-- 过时页面数量及最关键的几个
-- 最重要的缺失页面（Top 3）
-- 一个知识空白建议
+### 10. Report Summary
+Verbally summarize key findings to the user

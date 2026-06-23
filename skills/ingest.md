@@ -1,105 +1,92 @@
 ---
 skill: ingest
-trigger: "ingest <文件名>" 或 "处理 raw/ 中的新文件"
-description: 将一份原始资料整合到 wiki 中，更新相关页面、交叉引用和索引
+trigger: "ingest <filename>" or "process new files in raw/"
+description: Integrate a raw source into the wiki — update pages, cross-references, and index
 ---
 
-# Ingest：摄入新资料
+# Ingest: Process New Material
 
-## 触发条件
-- 我明确说 "ingest `<文件名>`"
-- 我在 `raw/` 中添加了新文件并让你处理
-- 批量处理: 我说 "ingest all new files in raw/"
+## Trigger
+- User says "ingest `<filename>`"
+- User adds a new file to `raw/` and asks you to process it
+- Batch: User says "ingest all new files in raw/"
 
-## 执行流程
+## Workflow
 
-### 1. 读取资料
-- 从 `raw/` 读取指定的文件全文
-- 若是图片: 先读文本再查看图片内容
+### 1. Read the Source
+- Read the specified file from `raw/` in full
+- If images are present: read text first, then view images for additional context
 
-### 2. 提取与讨论
-- 提取 3–5 个关键要点，概述核心论点
-- 与我讨论:
-  - 哪些内容值得重点强调？
-  - 是否有意外发现或与既有认知矛盾的结论？
-  - 我更关注哪个角度？
+### 2. Extract and Discuss
+- Extract 3–5 key takeaways, summarize the core argument
+- Discuss with the user:
+  - What deserves emphasis?
+  - Any surprising findings or contradictions with existing knowledge?
+  - Which angle does the user care about most?
 
-### 3. 创建来源页
-在 `wiki/sources/` 创建对应的摘要页，结构:
+### 3. Create Source Page
+Create a summary page in `wiki/sources/` with this structure:
 
 ```markdown
 ---
 type: source
-tags: [相关标签]
+tags: [relevant tags]
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
-sources: [[raw/中对应的文件]]
+sources: [[corresponding file in raw/]]
 status: complete
 ---
-# 资料标题
-## 来源信息
-- 作者/出处
-- 日期
-- 链接（如有）
+# Source Title
+## Source Info
+- Author / Origin
+- Date
+- URL (if applicable)
 
-## 核心要点
+## Key Takeaways
 1. ...
 2. ...
 
-## 关键引用
-> 值得保留的原文片段
+## Notable Quotes
+> Worth-preserving excerpts from the source
 
-## 个人批注
-- 与哪些已有知识关联
-- 值得进一步探索的方向
+## Personal Notes
+- Connections to existing knowledge
+- Directions worth exploring further
 ```
 
-### 4. 更新实体页和主题页
-- 扫描摘要中提到的每个**实体**（人物、机构、工具、概念、术语）:
-  - **先检查是否存在相关页面**: 在 `wiki/entities/` 和 `index.md` 中搜索同义或高度重叠的概念
-  - **判断层级关系**: 如果新概念是已有概念的子话题或特例 → 合并到已有页面作为小节，**不要**创建独立页面
-  - 若 `wiki/entities/<名称>.md` 已存在 → 在页面中追加来自本资料的新信息，更新 `updated` 日期
-  - 若不存在且不是已有概念的子话题 → 创建 stub:
+### 4. Update Entity and Topic Pages
+- For each **entity** mentioned (person, institution, tool, concept, term):
+  - **Run dedup check first**: Search `wiki/entities/` and `index.md` for synonymous or overlapping concepts
+  - **Determine hierarchy**: If the new concept is a sub-topic or special case of an existing page → merge as a subsection, do NOT create a standalone page
+  - If `wiki/entities/<name>.md` already exists → append new information, update `updated` date
+  - If it doesn't exist AND is not a sub-topic → create a stub:
     ```markdown
     ---
     type: entity
     tags: [...]
     created: YYYY-MM-DD
     updated: YYYY-MM-DD
-    sources: [[本次来源页]]
+    sources: [[this source page]]
     status: stub
     ---
-    # 名称
-    一句话定义。[[来源链接]]
+    # Name
+    One-sentence definition. [[source link]]
     ```
-- 检查所有相关的 `wiki/topics/` 页面，更新受影响的综述
+- Update all relevant `wiki/topics/` pages
 
-### 5. 交叉引用与矛盾检测
-- 搜索已有 wiki，找到所有提及本资料相关主题的页面
-- 在新页面和已有页面之间添加双向 `[[链接]]`
-- **矛盾检测**: 新信息是否与已有 wiki 页面的论断矛盾？
-  - 如发现: 在**双方**页面中添加:
-    ```markdown
-    > ⚠️ Contradiction: 具体矛盾描述。参见 [[对方页面]]
-    ```
+### 5. Cross-Referencing & Contradiction Detection
+- Search existing wiki for all pages related to this source's topics
+- Add bidirectional `[[links]]` between new and existing pages
+- **Contradiction check**: Does the new information contradict any existing wiki page?
+  - If found: add `> ⚠️ Contradiction:` callout on **both** pages
 
-### 6. 更新导航
-- **index.md**: 在对应类别下添加/更新条目: `- [[wiki/.../页面名]] — 一句话摘要`
-- **log.md**: 追加记录:
-  ```markdown
-  ## [YYYY-MM-DD] ingest | <资料标题>
-  - **触及页面**: [[page1]], [[page2]], ...
-  - **摘要**: 一句话描述本次操作
-  ```
+### 6. Update Navigation
+- **index.md**: Add/update entries under relevant categories
+- **log.md**: Append a record
 
-### 7. Git 提交
-- 若改动 ≥ 5 个文件: 操作前 `git commit -m "pre-ingest: <标题>"`
-- 操作完成后: `git commit -m "ingest: <标题>"`
-- 若改动 < 5 个文件: 仅在操作完成后 commit
+### 7. Git Commit
+- If ≥ 5 files changed: `git commit -m "pre-ingest: <title>"` before starting
+- After completion: `git commit -m "ingest: <title>"`
 
-### 8. 汇报
-完成时向我报告:
-- 创建了哪些新页面（实体 stub / 来源页）
-- 更新了哪些已有页面
-- 发现了哪些矛盾或开放问题
-- 建议的后续操作（例如: "建议为 X 概念创建独立页面"）
+### 8. Report
+Report to the user: new pages created, pages updated, contradictions or open questions found

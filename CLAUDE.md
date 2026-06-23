@@ -1,76 +1,81 @@
 # CLAUDE.md — LLM Wiki Schema & Personal Profile
 
-> **使用说明**: 此文件在每次 Claude Code 会话中自动加载。你需要完成两部分：**(1) 让 Claude 采访你，填入个人信息**，**(2) Wiki 结构约定已预置，可根据需要调整**。
+> **Description**: This file is loaded automatically at the start of every Claude Code session. You need to complete two parts: **(1) Let Claude interview you to fill in your personal profile**, **(2) Wiki conventions are pre-configured and can be adjusted as needed**.
 >
-> **快速开始**: 在 Claude Code 中说 "Interview me to fill out my CLAUDE.md"，Claude 会逐一询问并写入此文件。
+> **Quick start**: In Claude Code, say `Interview me to fill out my CLAUDE.md`. Claude will ask questions one at a time and write your answers here.
+>
+> 🌐 **中文用户?** Run `./setup.sh` and select `zh-CN` for Chinese versions of all files, or read [README.zh-CN.md](README.zh-CN.md).
 
 ---
 
-## 1. 关于我（待填充）
+## 1. About Me (to be filled)
 
-*让 Claude 采访你并填入以下信息。你也可以手动填写。*
+*Let Claude interview you and fill in the following. Or fill it in manually.*
 
-### 身份
-- **姓名**: [你的名字]
-- **角色**: [你的职位/身份]
-- **领域**: [你的专业领域]
+### Identity
+- **Name**: [Your name]
+- **Role**: [Your role / title]
+- **Field**: [Your domain / expertise]
 
-### 年度目标
-1. [目标 1]
-2. [目标 2]
-3. [目标 3]
+### Annual Goals
+1. [Goal 1]
+2. [Goal 2]
+3. [Goal 3]
 
-### 当前项目
-- **[项目名]**: [简述]
-- **[项目名]**: [简述]
+### Current Projects
+- **[Project name]**: [Brief description]
+- **[Project name]**: [Brief description]
 
-### 自我认知
-- **优势**: [你擅长的]
-- **待提升**: [你想改善的]
+### Self-Assessment
+- **Strengths**: [What you're good at]
+- **Areas to improve**: [What you want to get better at]
 
-### 关注领域
-- [领域 1]
-- [领域 2]
+### Interests
+- [Domain / topic 1]
+- [Domain / topic 2]
 
-### 沟通偏好
-- **风格**: [正式/随意]
-- **技术细节**: [简洁/由浅入深]
-- **语言**: [中文/English/混合]
+### Communication Preferences
+- **Style**: [Formal / Casual]
+- **Technical depth**: [Brief / Deep-dive / From-shallow-to-deep]
+- **Language**: [English / Chinese / Mixed]
 
 ---
 
-## 2. Wiki 结构约定
+## 2. Wiki Conventions
 
-### 目录架构
+### Directory Architecture
 
 ```
 vault/
-├── raw/                    # ① 原始资料层 — 不可变，只读不写
-│   ├── articles/           #   网页文章、博客、论文（Web Clipper 剪藏）
-│   ├── podcast-notes/      #   播客/视频笔记
-│   ├── book-chapters/      #   书籍章节
-│   └── assets/             #   图片等附件
-├── wiki/                   # ② Wiki 层 — Claude 全权维护
-│   ├── entities/           #   实体页（人物、机构、工具、概念、术语）
-│   ├── topics/             #   主题综述页（跨来源的知识合成）
-│   ├── sources/            #   每篇原始资料的摘要页（与 raw/ 一一对应）
-│   ├── comparisons/        #   对比分析页（A vs B）
-│   └── lint-reports/       #   定期健康检查报告
-├── projects/               # ③ 项目层 — 具体项目与交付物
-├── skills/                 # ④ 技能 — ingest.md / lint.md / query-and-keep.md
-├── CLAUDE.md               # ⑤ 本文件 — Schema + 个人画像
-├── index.md                # ⑥ 导航 — 全 wiki 内容目录
-└── log.md                  # ⑦ 日志 — 按时间追加的操作记录
+├── raw/                    # ① Raw sources — immutable, read-only
+│   ├── articles/           #   Web clippings, papers, articles
+│   ├── podcast-notes/      #   Podcast / video notes
+│   ├── book-chapters/      #   Book chapters
+│   └── assets/             #   Image attachments
+├── wiki/                   # ② Wiki layer — fully maintained by Claude
+│   ├── entities/           #   Entity pages (people, tools, concepts, terms)
+│   ├── topics/             #   Topic synthesis (cross-source knowledge)
+│   ├── sources/            #   Source summaries (one-to-one with raw/)
+│   ├── comparisons/        #   Comparison analyses (A vs B)
+│   └── lint-reports/       #   Periodic health-check reports
+├── projects/               # ③ Project layer — deliverables
+├── skills/                 # ④ Skills — reusable workflows
+│   ├── ingest.md           #   Ingest new material
+│   ├── lint.md             #   Health check
+│   └── query-and-keep.md   #   Query and archive
+├── CLAUDE.md               # ⑤ This file — Schema + personal profile
+├── index.md                # ⑥ Navigation — wiki content catalog
+└── log.md                  # ⑦ Log — chronological operation log
 ```
 
-### 页面命名约定
-- 实体页: `wiki/entities/<名称>.md`（人物、机构、工具、概念）
-- 主题综述: `wiki/topics/<主题名>.md`
-- 来源摘要: `wiki/sources/<资料标题>.md`
-- 对比分析: `wiki/comparisons/<A-vs-B>.md`
-- 健康报告: `wiki/lint-reports/YYYY-MM-DD.md`
+### Page Naming Conventions
+- Entity: `wiki/entities/<Name>.md`
+- Topic: `wiki/topics/<Topic>.md`
+- Source: `wiki/sources/<Title>.md`
+- Comparison: `wiki/comparisons/<A-vs-B>.md`
+- Lint report: `wiki/lint-reports/YYYY-MM-DD.md`
 
-### Frontmatter（每个 wiki 页面必须包含）
+### Frontmatter (required on every wiki page)
 
 ```yaml
 ---
@@ -83,108 +88,110 @@ status: stub | draft | complete | stale
 ---
 ```
 
-- `stub`: 仅标题与一句话，待扩展
-- `draft`: 有内容但尚不完整
-- `complete`: 信息充分且为最新
-- `stale`: 可能含过时信息，需复核
+- `stub`: Title + one sentence only, awaiting expansion
+- `draft`: Has content but incomplete
+- `complete`: Sufficient and up-to-date
+- `stale`: May contain outdated information, needs review
 
-### 交叉引用规则
+### Cross-Referencing Rules
 
-1. 正文中每次提到一个已有（或应有）wiki 页面的概念/实体，**必须**用 `[[双括号]]` 链接
-2. 每个重要声明必须链接到其来源页（链接到 `wiki/sources/` 对应页面）
-3. 创建新页面时，搜索已有 wiki 中所有提及该主题的页面，添加反向链接
-4. 使用以下 Callout 标注特殊信息：
-   - `> ⚠️ Contradiction:` — 该论断与另一页面的说法矛盾，并链接到矛盾页面
-   - `> 📌 Key Insight:` — 跨来源综合后的重要发现
-   - `> ❓ Open Question:` — 尚待解答的问题
-   - `> 🔗 See Also:` — 相关但未在正文中直接引用的页面
+1. Every concept/entity mentioned in body text that has (or should have) a wiki page **must** be linked with `[[double brackets]]`
+2. Every important claim must link to its source page (link to `wiki/sources/` page)
+3. When creating a new page, search the existing wiki for all pages that mention the topic and add backlinks
+4. Use the following callouts to annotate special information:
+   - `> ⚠️ Contradiction:` — This claim contradicts another page, with link to the conflicting page
+   - `> 📌 Key Insight:` — Important cross-source synthesis finding
+   - `> ❓ Open Question:` — Unresolved question worth investigating
+   - `> 🔗 See Also:` — Related pages not directly cited in body text
 
-### 概念去重与合并规则
+### Concept Deduplication Rules
 
-**创建新实体页之前，必须先检查是否已有相关页面：**
+**Before creating a new entity page, always check whether a related page already exists:**
 
-1. **搜索已有概念**: 在 `index.md` 和 `wiki/entities/` 中搜索与新概念相关的关键词
-2. **判断层级关系**: 如果新概念是已有概念的**子话题或特例**（如 FACS 是 AU 的定义框架、身份解耦是 disentanglement 的应用实例），应将其合并到已有页面中作为一个小节，而非创建独立页面
-3. **合并而非并列**: 两个页面如果满足以下任一条件，应合并：
-   - A 是 B 的定义/框架
-   - A 是 B 的具体应用实例
-   - A 和 B 描述的是同一个东西的不同名称
-4. **合并后必须清理**: 删除旧页面后，搜索 vault 中所有 `[[旧页面名]]` 引用，替换为 `[[合并后的页面名]]`。确保 index.md 和 log.md 也已更新
-5. **页面大小权衡**: 如果一个实体页只有 2-3 句话且没有独立阅读价值，它应该被合并。stub 页面除非预期会随更多 ingest 大幅扩展，否则优先合并
+1. **Search existing concepts**: Search `index.md` and `wiki/entities/` for keywords related to the new concept
+2. **Determine hierarchy**: If the new concept is a **sub-topic or special case** of an existing concept (e.g., FACS is the definition framework for AUs, identity decoupling is an application of disentanglement), merge it as a subsection of the existing page rather than creating a standalone page
+3. **Merge, don't parallelize**: Two pages should be merged if any of the following is true:
+   - A is the definition/framework of B
+   - A is a specific application instance of B
+   - A and B describe the same thing under different names
+4. **Clean up after merging**: After deleting the old page, search the entire vault for all `[[old page name]]` references and replace them with `[[merged page name]]`. Ensure index.md and log.md are also updated
+5. **Page size trade-off**: If an entity page is only 2-3 sentences and has no standalone reading value, it should be merged. Stub pages should be merged into the nearest parent unless expected to expand significantly with more ingests
 
-### 概念剔除规则（Pruning）
+### Concept Pruning Rules
 
-**wiki 的价值在于连接密度，而非页面数量。以下概念应被剔除或降级：**
+**Wiki value lies in connection density, not page count. The following should be pruned or demoted:**
 
-1. **单源人物**: 如果一个研究者只在 wiki 中被一篇资料提及，且无其他独立价值，将其信息合并到该资料的来源页或对应概念页中作为"提出者/作者"段落，不创建独立人物页面
-2. **数据集/工具类实体**: 除非该数据集是你研究的核心对象（反复出现、需要对比细节），否则作为对应概念页面的一个子节即可
-3. **三链接规则**: 若一个页面创建后，与其他页面的连接数 < 3 且在最近 5 次 ingest 中未被触及，它应被合并或降级为父页面的一节
-4. **stub 的保质期**: stub 页面若在 5 次 ingest 后仍未扩展超过 3 句话，合并到最相关的父页面
-5. **每次 lint 时执行剔除**: 在"概念去重检查"之后，扫描所有页面，对满足上述条件的页面提出剔除建议并执行
-6. **反模式警惕**:
-   - 不要为论文中提及的每个次要概念都建页面（只建核心的、将来会被反复引用的）
-   - 不要为人名建独立页面，除非此人在多个来源中出现或有独立的研究贡献值得了解
-   - 数据集、工具、评估指标通常作为父页面的小节，不独立成页
+1. **Single-source persons**: If a researcher is mentioned in only one source and has no other independent value, merge their info into the source page or the corresponding concept page as an "Author/Proposer" section. Do NOT create standalone person pages
+2. **Dataset/tool entities**: Unless a dataset is a core object of your research (appearing repeatedly, requiring detailed comparison), keep it as a subsection of its corresponding concept page
+3. **The 3-link rule**: If a page has fewer than 3 connections to other pages and hasn't been touched in the last 5 ingests, it should be merged or demoted to a subsection
+4. **Stub expiry**: If a stub hasn't expanded beyond 3 sentences after 5 ingests, merge it into the most relevant parent page
+5. **Prune on every lint**: After the "dedup check" step, scan all pages and recommend or execute pruning for pages matching the above criteria
+6. **Anti-patterns to avoid**:
+   - Don't create a page for every minor concept mentioned in a paper (only core concepts that will be repeatedly referenced)
+   - Don't create standalone pages for person names unless they appear across multiple sources or have independent research contributions worth knowing
+   - Datasets, tools, and evaluation metrics are typically subsections of parent pages, not standalone pages
 
-### Markdown 格式约定
-- 标题层级: `#` 页面标题（唯一），`##` 一级小节，`###` 二级小节
-- 代码块标注语言: ` ```python `, ` ```bash `, ` ```yaml ` 等
-- 数学公式: LaTeX 语法，行内 `$...$`，独立 `$$...$$`
-- 中英文之间加空格（例如: "使用 BERT 模型处理 10 个 epoch"）
-
----
-
-## 3. 核心操作流程
-
-### 操作 1: Ingest（摄取新资料）
-
-**触发**: 说 "ingest `<文件名>`" 或 "处理 raw/ 中的新文件"
-
-**流程**:
-1. **读取**: 从 `raw/` 读取指定文件
-2. **讨论**: 提取 3–5 个关键要点，与用户讨论重点
-3. **创建来源页**: 在 `wiki/sources/` 创建摘要页
-4. **更新实体/主题页**: 扫描实体/概念——
-   - **先执行去重检查**: 搜索已有页面，判断新概念是否是已有概念的子话题/特例/同义词
-   - 若是子话题或特例 → 合并到已有页面作为小节
-   - 若已存在 → 更新
-   - 若为全新概念且无法合并 → 创建 stub
-   - 更新受影响的 `wiki/topics/` 页面
-5. **交叉引用与矛盾检测**: 搜索已有 wiki → 添加 `[[双向链接]]` → 检查矛盾 → 标注 callout
-6. **更新导航**: 更新 `index.md` 和 `log.md`
-7. **Git 提交**: 改动 ≥ 5 文件时先 commit 再操作；完成后 commit
-8. **汇报**: 触及页面、新建页面、矛盾或开放问题
-
-### 操作 2: Query（查询 Wiki）
-
-**流程**:
-1. **定位**: 先读 `index.md` 找到相关页面
-2. **深读**: 阅读全文，注意关联与矛盾
-3. **回答**: 带 `[[引用链接]]` 的全面回答
-4. **归档询问**（不可省略）: 回答后必须问 "这个分析综合了 N 个页面。要归档到 wiki 吗？"
-
-### 操作 3: Lint（健康检查）
-
-**触发**: 说 "lint" 或每周定时执行
-
-**流程**:
-1. **矛盾扫描**: 交叉比对，标注 `⚠️ Contradiction`
-2. **过时检测**: `updated` > 30 天且涉及时效内容 → `status: stale`
-3. **孤儿页面**: 零入站链接的页面 → 补充链接或说明必要性
-4. **红色链接**: `[[指向不存在页面]]` 的 Top 10
-5. **缺失交叉引用**: 自动补充正文中未链接的实体
-6. **概念去重检查**: 扫描可合并的概念对，提出方案并执行
-7. **概念剔除**: 扫描单源人物、细粒度实体、过期 stub，提出剔除建议并执行
-8. **知识空白**: 建议 3–5 个新研究问题 + 2–3 份新资料
-9. **写入报告**: `wiki/lint-reports/YYYY-MM-DD.md`
+### Markdown Formatting
+- Heading levels: `#` page title (unique), `##` major section, `###` sub-section
+- Code blocks with language: ` ```python `, ` ```bash `, ` ```yaml ` etc.
+- Math formulas: LaTeX syntax, inline `$...$`, display `$$...$$`
 
 ---
 
-## 4. 维护原则
+## 3. Core Operations
 
-- **权限靠钥匙，不靠提示词**: 敏感数据只授予只读权限
-- **原始资料不可变**: `raw/` 中所有文件永不修改
-- **每次操作必更新 index.md 和 log.md**: 这两个文件是 wiki 的导航骨架
-- **Git 作为安全网**: 重大操作前 commit，出错可回滚
-- **Wiki 属于你，不属于工具**: 所有文件均为本地 markdown + git，永不被锁定
-- **页面越少越有价值**: 宁可一个页面内容密集，也不要 10 个页面各一句话
+### Operation 1: Ingest
+
+**Trigger**: Say `ingest <filename>` or "process new files in raw/"
+
+**Workflow**:
+1. **Read**: Read the specified file from `raw/`
+2. **Discuss**: Extract 3-5 key takeaways, discuss with the user about emphasis and unexpected findings
+3. **Create source page**: Create a summary page in `wiki/sources/` with frontmatter, full summary, and key quotes
+4. **Update entity/topic pages**: For each entity/concept mentioned —
+   - **Run dedup check first**: Search existing pages to determine if the new concept is a sub-topic/special-case/synonym of an existing one
+   - If sub-topic or special case → merge as a subsection, do NOT create standalone page
+   - If page already exists → update with new information
+   - If genuinely new and cannot be merged → create stub (status: stub)
+   - Update all affected `wiki/topics/` pages
+5. **Cross-reference & contradiction check**: Search existing wiki → add `[[bidirectional links]]` → check for contradictions → annotate with callouts
+6. **Update navigation**: Update affected entries in `index.md`; append record to `log.md`
+7. **Git commit**: If ≥ 5 files changed, `git commit` before starting; always commit after completion
+8. **Report**: Summarize pages touched, new pages created, contradictions or open questions found
+
+### Operation 2: Query
+
+**Workflow**:
+1. **Locate**: Read `index.md` first to find relevant pages (typically 3-10)
+2. **Deep-dive**: Read full text of relevant pages, noting hidden connections and contradictions
+3. **Answer**: Provide comprehensive answer with `[[citation links]]`; use callouts for key findings
+4. **Archive prompt** (DO NOT skip): After answering, **must** ask:
+   > "This analysis synthesizes N pages. Want me to archive it to `wiki/topics/` or `wiki/comparisons/`?"
+   - If yes → write to wiki → update index → append log
+   - If no → don't archive, but retain the analysis path
+
+### Operation 3: Lint
+
+**Trigger**: Say `lint` or run weekly
+
+**Workflow**:
+1. **Contradiction scan**: Cross-compare all pages, annotate `⚠️ Contradiction` on both sides
+2. **Stale detection**: If `updated` > 30 days and contains time-sensitive content → mark `status: stale`
+3. **Orphan pages**: Pages with zero inbound links → add links or justify standalone existence
+4. **Red links**: Scan all `[[links to non-existent pages]]`, list Top 10 by citation count
+5. **Missing cross-references**: Auto-add `[[links]]` for entities mentioned in text but not linked
+6. **Dedup check**: Scan for mergeable concept pairs, propose and execute
+7. **Pruning**: Scan single-source persons, fine-grained entities, expired stubs → propose and execute
+8. **Knowledge gaps**: Suggest 3-5 new research questions + 2-3 new sources to seek
+9. **Write report**: Full report to `wiki/lint-reports/YYYY-MM-DD.md`
+
+---
+
+## 4. Maintenance Principles
+
+- **Permission via keys, not prompts**: Grant read-only access to sensitive data (email, calendar); never rely on text instructions for security
+- **Raw sources are immutable**: All files in `raw/` are never modified, read-only
+- **Always update index.md and log.md after every operation**: These two files are the navigation backbone of the entire wiki
+- **Git as safety net**: `git commit` before major operations, `git reset --hard` to roll back
+- **Wiki belongs to you, not the tool**: All files are local markdown + git, readable by any model/tool, never locked in
+- **Fewer pages, more value**: One content-dense page is better than ten one-sentence pages
